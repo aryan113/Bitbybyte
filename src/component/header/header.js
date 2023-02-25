@@ -6,7 +6,7 @@ const { Title } = Typography;
 export const Header = () => {
     return(
         <>
-            <div className='header-cont'>
+            <div className='header-cont-0'>
                 <div className='logo-cont'>
                     <img src={logo} alt='Reshorts Logo' />
                 </div>
