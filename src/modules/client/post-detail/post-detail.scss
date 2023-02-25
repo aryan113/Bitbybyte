@@ -1,0 +1,54 @@
+.header-cont {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    padding: 16px 0;
+    span {
+        font-size: 20px;
+        margin: 0 10px;
+    }
+    h5 {
+        margin: 0;
+    }
+    .title {
+        width: 300px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+}
+.body-cont {
+    .ant-card {
+        border: unset;
+        border-radius: 0;
+        img {
+            border-radius: 0;
+        }
+        .ant-card-body {
+            text-align: left;
+            padding: 16px 8px 0;
+            .description-cont {
+                .icons {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 12px;
+                    .heart-icon {
+                        cursor: pointer;
+                        &.selected {
+                            color: #a154a1;
+                        }
+                    }
+                    span {
+                        font-size: 24px;
+                    }
+                }
+            }
+            .read-more {
+                display: block;
+                margin-top: 16px;
+                font-size: 12px;
+            }
+        }
+    }
+}

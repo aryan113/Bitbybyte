@@ -1,0 +1,21 @@
+.header-cont {
+    width: 100%;
+    background-color: white;
+    padding: 8px 0;
+    border-bottom: 2px solid #ddd;
+    .logo-cont {
+        width: 150px;
+        img {
+            width: 100%;
+        }
+    }
+    .description-con {
+        font-size: 20px;
+        margin: 0;
+        text-align: left;
+        font-weight: bold;
+        h4 {
+            margin: 0;
+        }
+    }
+}
