@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Footer } from '../../../component/footer/footer';
-import { Col, Row, Skeleton } from 'antd';
+import { Skeleton } from 'antd';
 import { getPosts } from '../../../services/posts/posts';
 import { useParams, useNavigate } from "react-router-dom";
 import { LeftOutlined } from '@ant-design/icons';
