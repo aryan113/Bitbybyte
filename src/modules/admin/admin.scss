@@ -1,0 +1,25 @@
+.admin-cont {
+    width: calc(100% - 150px);
+    margin: auto;
+    .item-cont {
+        padding: 24px 0 24px;
+        text-align: left;
+        border-bottom: 1px solid #999;
+        .item {
+            padding: 8px 16px;
+            margin: 0 8px;
+            border: 1px solid #999;
+            cursor: pointer;
+            &.selected-tab {
+                border: 1px solid #a154a1;
+                background-color: #a154a144;
+            }
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    }
+    .children {
+        margin-top: 16px;
+    }
+}

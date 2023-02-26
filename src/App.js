@@ -32,7 +32,6 @@ const app = initializeApp(firebaseConfig);
 function App() {
   return (
     <div className="App">
-      <div className="container">
         <BrowserRouter>
           <Routes>
             <Route path="/">
@@ -51,7 +50,6 @@ function App() {
             </Route>
           </Routes>
         </BrowserRouter>
-      </div>
     </div>
   );
 }

@@ -1,0 +1,29 @@
+.icon {
+    font-size: 20px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+.ant-btn-primary {
+    background-color: #a154a1;
+    &:hover {
+        background-color: #a154a1 !important;
+    }
+    &:active {
+        background-color: #a154a1 !important;
+    }
+}
+.header-table {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    h3 {
+        margin: 0;
+    }
+}
+.successToast {
+    width: 200px;
+    position: fixed;
+    bottom: 42px;
+    right: 42px;
+}

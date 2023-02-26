@@ -2,17 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Footer } from '../../../component/footer/footer';
 import { Skeleton } from 'antd';
 import { getPosts } from '../../../services/posts/posts';
-import { useParams, useNavigate } from "react-router-dom";
-import { LeftOutlined } from '@ant-design/icons';
+import { useParams } from "react-router-dom";
 import { Card } from 'antd';
 import { HeartOutlined, HeartFilled, ShareAltOutlined } from '@ant-design/icons';
 import './post-detail.scss';
 import { Typography } from 'antd';
+import { PostDetailsHeader } from '../../../component/header/post-details-header/post-details-header';
 const { Text, Link } = Typography;
-const { Title } = Typography;
 
 export const PostDetail = () => {
-    const history = useNavigate();
     const { id } = useParams();
     const [loading, setLoading] = useState(true);
     const [showShare, setShowShare] = useState(true);
@@ -36,10 +34,6 @@ export const PostDetail = () => {
             setLoading(false);
         })
     }, [id]);
-    
-    const historyBack = () => {
-        history(-1);
-    }
 
     const sharePost = () => {
         if (navigator.share) {
@@ -58,10 +52,8 @@ export const PostDetail = () => {
     }
     return(
         <>
-            <div className='header-cont' onClick={() => historyBack()}>
-                <LeftOutlined />
-                {loading ? <Skeleton.Input /> : <Title level={5} className='title'>{fields?.title}</Title>}
-            </div>
+            <div className="container">
+            <PostDetailsHeader title={fields?.title} loading={loading} />
             {loading && <> 
                 <div className='body-cont'>
                     <Skeleton.Image />
@@ -90,6 +82,7 @@ export const PostDetail = () => {
                 </div>
             }
             <Footer />
+            </div>
         </>
     )
 }

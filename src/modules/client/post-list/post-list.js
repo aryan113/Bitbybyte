@@ -12,7 +12,6 @@ export const PostList = () => {
     
     useEffect(() => {
         getPosts(({ data }) => {
-            console.log('gggggg', data);
             setPosts(data.records);
         }, () => {}, () => {
             setLoading(false);
@@ -21,6 +20,7 @@ export const PostList = () => {
     
     return(
         <>
+            <div className="container">
             <Header />
             {loading && <> 
                 <div className='body-cont'>
@@ -55,6 +55,7 @@ export const PostList = () => {
                 </div>
             }
             <Footer />
+            </div>
         </>
     )
 }
