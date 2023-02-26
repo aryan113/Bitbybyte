@@ -1,4 +1,4 @@
-import { generateNewPosts, getInReviewPosts, makePostLive } from './../../../services/posts/posts';
+import { generateNewPosts, getInReviewPosts, makePostLive, updatePost } from './../../../services/posts/posts';
 import { useEffect, useState } from 'react';
 import { Table, Button, Modal, Form,Input, Alert } from 'antd';
 import { EditOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
@@ -10,17 +10,20 @@ const { RangePicker } = DatePicker;
 export const InReviewPosts = (props) => {
     const { callback } = props;
     const [buttonLoader, setButtonLoader] = useState(false);
+    const [updateButtonLoading, setUpdateButtonLoading] = useState(false);
     const [loading, setLoading] = useState(true);
     const [dataSource, setDataSource] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [postUpdateData, setPostUpdateData] = useState({});
     const [form] = Form.useForm();
     const [postedSuccessfully, setPostedSuccessfully] = useState(false);
     const [deletedSuccessfully, setDeletedSuccessfully] = useState(false);
     const [postFetchedSuccessfully, setPostFetchedSuccessfully] = useState(false);
+    const [updatePostSuccessfully, setUpdatePostSuccessfully] = useState(false);
     const dateFormat = 'YYYY-MM-DD';
     const [toDate, setToDate] = useState('2023-02-26T00:00:00');
     const [fromDate, setFromDate] = useState('2023-02-20T00:00:00');
+    const [initFormValues, setInitFormValues] = useState({title: '', caption: ''});
+    const [editId, setEditId] = useState('');
     useEffect(() => {
         getPosts();
     }, []);
@@ -32,25 +35,30 @@ export const InReviewPosts = (props) => {
     }
 
     useEffect(() => {
-        if(postedSuccessfully || deletedSuccessfully) {
+        if(postedSuccessfully || deletedSuccessfully || postFetchedSuccessfully || updatePostSuccessfully) {
             setTimeout(() => {
                 setPostedSuccessfully(false);
                 setDeletedSuccessfully(false);
                 setPostFetchedSuccessfully(false);
+                setUpdatePostSuccessfully(false);
             }, 4000);
         }
-    }, [postedSuccessfully, deletedSuccessfully, postFetchedSuccessfully])
+    }, [postedSuccessfully, deletedSuccessfully, postFetchedSuccessfully, updatePostSuccessfully])
 
     const editPost = (id) => {
-        const editPost = dataSource.filter(post => post.id === id);
-        if(editPost.length) {
-            setIsModalOpen(true);
-            setTimeout(() => {
-                setPostUpdateData({...{title: editPost[0].fields.title, content: editPost[0].fields.content}});
-                // form.resetFields();    
-            }, 1000)
-        }
+        setIsModalOpen(true);
+        setEditId(id);
     }
+
+    useEffect(() => {
+        if(editId) {
+            const editPostObj = dataSource.filter(post => post.id === editId);
+            form.setFieldsValue({
+                title: editPostObj[0].fields.title,
+                caption: editPostObj[0].fields.caption
+            })
+        }
+    }, [editId])
 
     const approvePost = (id) => {
         const approvePost = dataSource.filter(post => post.id === id);
@@ -91,7 +99,16 @@ export const InReviewPosts = (props) => {
     }
 
     const onFinish = (data) => {
-        console.log('Data here :: ', data);
+        setUpdateButtonLoading(true);
+        updatePost({...data, id: editId}, (data) => {
+            setUpdatePostSuccessfully(true);
+            handleCancel();
+            getPosts();
+        }, (error) => {
+            console.log(error);
+        }, () => {
+            setUpdateButtonLoading(false);
+        })
     }
 
     const selectDate = (fromDate, date) => {
@@ -181,28 +198,25 @@ export const InReviewPosts = (props) => {
                     name="basic"
                     style={{ minWidth: '100%' }}
                     form={form}
-                    initialValues={{title: postUpdateData.title, content: postUpdateData.content}}
+                    initialValues={initFormValues}
                     onFinish={onFinish}
-                    // onFinishFailed={onFinishFailed}
                     autoComplete="off"
                 >
                     <Form.Item
-                        name={['fields', "title"]}
+                        name="title"
                         style={{ minWidth: '100%' }}
                         rules={[{required: true, message: 'Please enter a title!' }]}
                     >
                         <Input style={{ minWidth: '100%' }} placeholder="Enter title here..."/>
                     </Form.Item>
-                    <Form.Item 
-                        name={['fields', 'content']} 
+                    <Form.Item
+                        name="caption"
                         style={{ minWidth: '100%' }}
-                        rules={[{required: true, message: 'Please enter some content!' }]}
-                        
                     >
-                        <Input.TextArea style={{ minWidth: '100%' }} placeholder="Enter content here..." />
+                        <Input style={{ minWidth: '100%' }} placeholder="Enter tags here..."/>
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit">
+                        <Button disabled={updateButtonLoading} type="primary" htmlType="submit">
                         Update
                         </Button>
                     </Form.Item>
@@ -224,6 +238,13 @@ export const InReviewPosts = (props) => {
             {postFetchedSuccessfully ? <div className='successToast'>
                 <Alert
                     message="News Fetched Successfully!"
+                    type="success"
+                />
+            </div> : <></>}
+
+            {updatePostSuccessfully ? <div className='successToast'>
+                <Alert
+                    message="Post Updated Successfully!"
                     type="success"
                 />
             </div> : <></>}

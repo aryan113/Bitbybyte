@@ -61,6 +61,20 @@ export const makePostLive = (postObj, successCallback, failureCallback, finalCal
     });
 }
 
+export const updatePost = (postObj, successCallback, failureCallback, finalCallback) => {
+    base('drafts').update(postObj.id, {
+        title: postObj?.title,
+        caption: postObj?.caption
+    }, function(err, record) {
+        if (err) {
+          failureCallback(err);
+          return;
+        }
+        successCallback(record);
+        finalCallback();
+    });
+}
+
 export const rejectPost = (postObj, successCallback, failureCallback, finalCallback) => {
     base('drafts').update(postObj.id, {
         "status": "rejected",
