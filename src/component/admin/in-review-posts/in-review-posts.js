@@ -7,7 +7,8 @@ import dayjs from 'dayjs';
 import './in-review-posts.scss';
 const { RangePicker } = DatePicker;
 
-export const InReviewPosts = () => {
+export const InReviewPosts = (props) => {
+    const { callback } = props;
     const [buttonLoader, setButtonLoader] = useState(false);
     const [loading, setLoading] = useState(true);
     const [dataSource, setDataSource] = useState([]);
@@ -56,6 +57,9 @@ export const InReviewPosts = () => {
             makePostLive(approvePost[0], (data) => {
                 setPostedSuccessfully(true);
                 getPosts();
+                if(callback) {
+                    callback();
+                }
             }, (error) => {
                 console.log(error);
             }, () => {
@@ -70,6 +74,9 @@ export const InReviewPosts = () => {
             makePostLive(deletePost[0], (data) => {
                 setDeletedSuccessfully(true);
                 getPosts();
+                if(callback) {
+                    callback();
+                }
             }, (error) => {
                 console.log(error);
             }, () => {

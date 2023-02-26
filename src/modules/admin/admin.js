@@ -35,6 +35,11 @@ export const Admin = () => {
         }, () => {}, () => {})
     }
 
+    const callbackAfterUpdate = () => {
+        getReviewPosts();
+        getApprovedPosts();
+    }
+
     const tabsConfig = [{
         label: 'In Review',
         id: 'in-review',
@@ -49,13 +54,13 @@ export const Admin = () => {
     const getChildren = (id) => {
         switch(id) {
             case 'in-review':
-                return <InReviewPosts />
+                return <InReviewPosts callback={callbackAfterUpdate} />
             case 'scheduled':
-                return <ScheduledPosts />
+                return <ScheduledPosts callback={callbackAfterUpdate} />
             case 'live':
-                return <LivePosts />
+                return <LivePosts callback={callbackAfterUpdate} />
             default:
-                return <InReviewPosts />
+                return <InReviewPosts callback={callbackAfterUpdate} />
         } 
     }
 
