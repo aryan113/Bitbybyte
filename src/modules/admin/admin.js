@@ -36,6 +36,7 @@ export const Admin = () => {
     }
 
     const callbackAfterUpdate = () => {
+        console.log('coming here');
         getReviewPosts();
         getApprovedPosts();
     }
@@ -72,7 +73,7 @@ export const Admin = () => {
                     {
                         tabsConfig.map((item, index) => <React.Fragment key={index}>
                             <span className={`item ${item.id === selectedTab ? 'selected-tab' : ''}`} onClick={() => setSelectedTab(item.id)} >
-                                {item.label} ({index === 0 ? inReviewCount : liveCount})
+                                {item.label} {index === 0 ? ` (${inReviewCount})` : ` (${liveCount})`}
                                 {item.count}
                             </span>
                         </React.Fragment>)
