@@ -36,9 +36,10 @@ export const InReviewPosts = (props) => {
             setTimeout(() => {
                 setPostedSuccessfully(false);
                 setDeletedSuccessfully(false);
+                setPostFetchedSuccessfully(false);
             }, 4000);
         }
-    }, [postedSuccessfully, deletedSuccessfully])
+    }, [postedSuccessfully, deletedSuccessfully, postFetchedSuccessfully])
 
     const editPost = (id) => {
         const editPost = dataSource.filter(post => post.id === id);
