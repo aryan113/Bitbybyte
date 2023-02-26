@@ -74,6 +74,20 @@ export const rejectPost = (postObj, successCallback, failureCallback, finalCallb
     });
 }
 
-export const generateNewPosts = (postObj, successCallback, failureCallback, finalCallback) => {
-    
+export const generateNewPosts = (dateRange, successCallback, failureCallback, finalCallback) => {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", 'https://klnq38lwqj.execute-api.ap-south-1.amazonaws.com/dev/api/news');
+    xhr.setRequestHeader('Authorization', `Bearer key8Fd9wPmEeVMGCJ`)
+    xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+        if(xhr.status===200) {
+            const jsonRes = JSON.parse(xhr.response);
+            successCallback({data: jsonRes});
+        } else {
+            failureCallback();
+        }
+        finalCallback();
+    }};
+
+    xhr.send(JSON.stringify({...dateRange}));
 }

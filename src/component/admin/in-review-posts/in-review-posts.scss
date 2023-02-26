@@ -27,3 +27,12 @@
     bottom: 42px;
     right: 42px;
 }
+
+.fetchPostModal {
+    text-align: left;
+    padding-bottom: 48px;
+    border-top: 2px solid #ddd;
+    .range-picker {
+        margin-bottom: 16px;
+    }
+}

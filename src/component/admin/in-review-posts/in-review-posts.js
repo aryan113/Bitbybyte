@@ -1,11 +1,14 @@
-import { getInReviewPosts, approvePost, makePostLive } from './../../../services/posts/posts';
+import { generateNewPosts, getInReviewPosts, makePostLive } from './../../../services/posts/posts';
 import { useEffect, useState } from 'react';
-import { Table, Button, Modal, Form,Input, notification, Alert } from 'antd';
-import { EditOutlined, CheckOutlined, CloseOutlined, PlusOutlined } from '@ant-design/icons';
+import { Table, Button, Modal, Form,Input, Alert } from 'antd';
+import { EditOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
 import './in-review-posts.scss';
+const { RangePicker } = DatePicker;
 
 export const InReviewPosts = () => {
-    const [api, contextHolder] = notification.useNotification();
+    const [buttonLoader, setButtonLoader] = useState(false);
     const [loading, setLoading] = useState(true);
     const [dataSource, setDataSource] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,6 +16,10 @@ export const InReviewPosts = () => {
     const [form] = Form.useForm();
     const [postedSuccessfully, setPostedSuccessfully] = useState(false);
     const [deletedSuccessfully, setDeletedSuccessfully] = useState(false);
+    const [postFetchedSuccessfully, setPostFetchedSuccessfully] = useState(false);
+    const dateFormat = 'YYYY-MM-DD';
+    const [toDate, setToDate] = useState('2023-02-26T00:00:00');
+    const [fromDate, setFromDate] = useState('2023-02-20T00:00:00');
     useEffect(() => {
         getPosts();
     }, []);
@@ -79,13 +86,30 @@ export const InReviewPosts = () => {
         console.log('Data here :: ', data);
     }
 
+    const selectDate = (fromDate, date) => {
+        setToDate(`${date[1]}T00:00:00`);
+        setFromDate(`${date[0]}T00:00:00`);
+    }
+
+    const generatePosts = () => {
+        setButtonLoader(true);
+        generateNewPosts({from: fromDate, to: toDate}, (data) => {
+            setPostFetchedSuccessfully(true);
+            getPosts();
+        }, () => {
+
+        }, () => {
+            setButtonLoader(false)
+        })
+    }
+
     return(
         <>
             <div className='header-table'>
                 <h3>In Review Posts</h3>
-                <Button className='button' type="primary" icon={<PlusOutlined />}>
+                {/* <Button className='button' type="primary" icon={<PlusOutlined />}>
                     Create Post
-                </Button>
+                </Button> */}
             </div>
             <Table loading={loading} dataSource={dataSource}>
                 <Table.Column
@@ -188,6 +212,25 @@ export const InReviewPosts = () => {
                     type="success"
                 />
             </div> : <></>}
+
+            {postFetchedSuccessfully ? <div className='successToast'>
+                <Alert
+                    message="News Fetched Successfully!"
+                    type="success"
+                />
+            </div> : <></>}
+
+            <div className='fetchPostModal'>
+                <h3>for Demo: Fetch News</h3>
+                <RangePicker className='range-picker'
+                    defaultValue={[dayjs('2023/02/20', dateFormat), dayjs('2023/02/26', dateFormat)]}
+                    format={dateFormat}
+                    onChange={selectDate}
+                /><br/>
+                <Button disabled={buttonLoader} type='primary' onClick={generatePosts}>
+                    Fetch News
+                </Button>
+            </div>
         </>
     )
 }
