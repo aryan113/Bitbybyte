@@ -6,7 +6,7 @@ const customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
 
 const configuration = new Configuration({
-  apiKey: `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`,
+  apiKey: `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`,
 });
 const openai = new OpenAIApi(configuration);
 

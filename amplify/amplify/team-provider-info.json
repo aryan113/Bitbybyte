@@ -15,7 +15,7 @@
       "function": {
         "reshorts8c498762": {
           "deploymentBucketName": "amplify-reshorts-dev-183308-deployment",
-          "s3Key": "amplify-builds/reshorts8c498762-2f6e43634f3368504655-build.zip"
+          "s3Key": "amplify-builds/reshorts8c498762-5071754b343830325667-build.zip"
         }
       }
     }
