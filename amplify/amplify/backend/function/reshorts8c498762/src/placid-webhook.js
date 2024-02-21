@@ -1,5 +1,5 @@
 const Airtable = require('airtable');
-const base = new Airtable({ apiKey: 'key8Fd9wPmEeVMGCJ' }).base('appYuNzt3cbw4NeEQ');
+const base = new Airtable({ apiKey: 'patwXzkI0ezdZsVSg.52b54dda6e51b05c2c25129f348b03f8397728ac6fa9a6c8d8757fd857126a5c' }).base('appYuNzt3cbw4NeEQ');
 
 const handler = async (req, res) => {
   try {

@@ -1,6 +1,6 @@
 import { generateNewPosts, getInReviewPosts, makePostLive, updatePost } from './../../../services/posts/posts';
 import { useEffect, useState } from 'react';
-import { Table, Button, Modal, Form,Input, Alert } from 'antd';
+import { Table, Button, Modal, Form, Input, Alert } from 'antd';
 import { EditOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
@@ -20,9 +20,9 @@ export const InReviewPosts = (props) => {
     const [postFetchedSuccessfully, setPostFetchedSuccessfully] = useState(false);
     const [updatePostSuccessfully, setUpdatePostSuccessfully] = useState(false);
     const dateFormat = 'YYYY-MM-DD';
-    const [toDate, setToDate] = useState('2023-02-26T00:00:00');
-    const [fromDate, setFromDate] = useState('2023-02-20T00:00:00');
-    const [initFormValues, setInitFormValues] = useState({title: '', caption: ''});
+    const [toDate, setToDate] = useState('2024-02-26T00:00:00');
+    const [fromDate, setFromDate] = useState('2024-02-20T00:00:00');
+    const [initFormValues, setInitFormValues] = useState({ title: '', caption: '' });
     const [editId, setEditId] = useState('');
     useEffect(() => {
         getPosts();
@@ -31,11 +31,11 @@ export const InReviewPosts = (props) => {
     const getPosts = () => {
         getInReviewPosts(({ data }) => {
             setDataSource(data.records);
-        }, () => {}, () => {setLoading(false)})
+        }, () => { }, () => { setLoading(false) })
     }
 
     useEffect(() => {
-        if(postedSuccessfully || deletedSuccessfully || postFetchedSuccessfully || updatePostSuccessfully) {
+        if (postedSuccessfully || deletedSuccessfully || postFetchedSuccessfully || updatePostSuccessfully) {
             setTimeout(() => {
                 setPostedSuccessfully(false);
                 setDeletedSuccessfully(false);
@@ -51,7 +51,7 @@ export const InReviewPosts = (props) => {
     }
 
     useEffect(() => {
-        if(editId) {
+        if (editId) {
             const editPostObj = dataSource.filter(post => post.id === editId);
             form.setFieldsValue({
                 title: editPostObj[0].fields.title,
@@ -62,11 +62,11 @@ export const InReviewPosts = (props) => {
 
     const approvePost = (id) => {
         const approvePost = dataSource.filter(post => post.id === id);
-        if(approvePost.length) {
+        if (approvePost.length) {
             makePostLive(approvePost[0], (data) => {
                 setPostedSuccessfully(true);
                 getPosts();
-                if(callback) {
+                if (callback) {
                     callback();
                 }
             }, (error) => {
@@ -79,11 +79,11 @@ export const InReviewPosts = (props) => {
 
     const deletePost = (id) => {
         const deletePost = dataSource.filter(post => post.id === id);
-        if(deletePost.length) {
+        if (deletePost.length) {
             makePostLive(deletePost[0], (data) => {
                 setDeletedSuccessfully(true);
                 getPosts();
-                if(callback) {
+                if (callback) {
                     callback();
                 }
             }, (error) => {
@@ -100,7 +100,7 @@ export const InReviewPosts = (props) => {
 
     const onFinish = (data) => {
         setUpdateButtonLoading(true);
-        updatePost({...data, id: editId}, (data) => {
+        updatePost({ ...data, id: editId }, (data) => {
             setUpdatePostSuccessfully(true);
             handleCancel();
             getPosts();
@@ -118,7 +118,7 @@ export const InReviewPosts = (props) => {
 
     const generatePosts = () => {
         setButtonLoader(true);
-        generateNewPosts({from: fromDate, to: toDate}, (data) => {
+        generateNewPosts({ from: fromDate, to: toDate }, (data) => {
             setPostFetchedSuccessfully(true);
             getPosts();
         }, () => {
@@ -128,7 +128,7 @@ export const InReviewPosts = (props) => {
         })
     }
 
-    return(
+    return (
         <>
             <div className='header-table'>
                 <h3>In Review Posts</h3>
@@ -185,10 +185,10 @@ export const InReviewPosts = (props) => {
                     dataIndex="id"
                     key="icons"
                     render={(id) => <>
-                            <EditOutlined className='icon' onClick={() => editPost(id)}/>
-                            <CheckOutlined className='icon' onClick={() => approvePost(id)} />
-                            <CloseOutlined className='icon' onClick={() => deletePost(id)} />
-                        </>
+                        <EditOutlined className='icon' onClick={() => editPost(id)} />
+                        <CheckOutlined className='icon' onClick={() => approvePost(id)} />
+                        <CloseOutlined className='icon' onClick={() => deletePost(id)} />
+                    </>
                     }
                 />
             </Table>
@@ -205,19 +205,19 @@ export const InReviewPosts = (props) => {
                     <Form.Item
                         name="title"
                         style={{ minWidth: '100%' }}
-                        rules={[{required: true, message: 'Please enter a title!' }]}
+                        rules={[{ required: true, message: 'Please enter a title!' }]}
                     >
-                        <Input style={{ minWidth: '100%' }} placeholder="Enter title here..."/>
+                        <Input style={{ minWidth: '100%' }} placeholder="Enter title here..." />
                     </Form.Item>
                     <Form.Item
                         name="caption"
                         style={{ minWidth: '100%' }}
                     >
-                        <Input style={{ minWidth: '100%' }} placeholder="Enter tags here..."/>
+                        <Input style={{ minWidth: '100%' }} placeholder="Enter tags here..." />
                     </Form.Item>
                     <Form.Item>
                         <Button disabled={updateButtonLoading} type="primary" htmlType="submit">
-                        Update
+                            Update
                         </Button>
                     </Form.Item>
                 </Form>
@@ -252,10 +252,10 @@ export const InReviewPosts = (props) => {
             <div className='fetchPostModal'>
                 <h3>for Demo: Fetch News</h3>
                 <RangePicker className='range-picker'
-                    defaultValue={[dayjs('2023/02/20', dateFormat), dayjs('2023/02/26', dateFormat)]}
+                    defaultValue={[dayjs('2024/02/20', dateFormat), dayjs('2024/02/26', dateFormat)]}
                     format={dateFormat}
                     onChange={selectDate}
-                /><br/>
+                /><br />
                 <Button disabled={buttonLoader} type='primary' onClick={generatePosts}>
                     Fetch News
                 </Button>

@@ -10,7 +10,7 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-const base = new Airtable({ apiKey: 'key8Fd9wPmEeVMGCJ' }).base('appYuNzt3cbw4NeEQ');
+const base = new Airtable({ apiKey: 'patwXzkI0ezdZsVSg.52b54dda6e51b05c2c25129f348b03f8397728ac6fa9a6c8d8757fd857126a5c' }).base('appYuNzt3cbw4NeEQ');
 
 const NEWS_API_URL = "https://newsapi.org/v2/everything";
 const PLACID_API_URL = 'https://api.placid.app/api/rest/';
@@ -34,8 +34,8 @@ const fetchNews = async (req, res) => {
         params: {
           "apiKey": "2ad70e4a1c7e421f811ed9e2f99974d5",
           "domains": "moneycontrol.com,indiatimes.com,thehindu.com,hindustantimes.com,ndtv.com",
-          "from": from || "2023-02-24T10:00:00",
-          "to": to || "2023-02-26T05:00:00",
+          "from": from || "2024-02-24T10:00:00",
+          "to": to || "2024-02-26T05:00:00",
           "q": "real estate",
           "pageSize": 10,
           "sortBy": "popularity",
@@ -85,7 +85,7 @@ function optimisePost(obj) {
         "content": obj.description,
         "type": "post",
         "content-type": "text",
-        "updated_at": dayjs(obj.publishedAt).format('YYYY-MM-DD') || "2023-02-24",
+        "updated_at": dayjs(obj.publishedAt).format('YYYY-MM-DD') || "2024-02-24",
         "background": obj.urlToImage,
         "image": obj.urlToImage,
         "source": obj.source.name,

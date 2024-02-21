@@ -28,7 +28,7 @@ async function fetchNews() {
         params: {
           "apiKey": "2ad70e4a1c7e421f811ed9e2f99974d5",
           "domains": "moneycontrol.com,indiatimes.com,thehindu.com,hindustantimes.com,ndtv.com",
-          "from": "2023-02-24T10:00:00",
+          "from": "2024-02-24T10:00:00",
           "q": "real estate",
           "sortBy": "popularity"
         },

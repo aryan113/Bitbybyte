@@ -1,4 +1,5 @@
 import axios from "axios";
+const API_KEY = 'patwXzkI0ezdZsVSg.52b54dda6e51b05c2c25129f348b03f8397728ac6fa9a6c8d8757fd857126a5c'
 
 // request interceptor
 axios.interceptors.request.use(
@@ -7,7 +8,7 @@ axios.interceptors.request.use(
             config.headers = {
                 ...config.headers,
                 "Content-Type": "application/json",
-                headers: {"Authorization" : `Bearer key8Fd9wPmEeVMGCJ`}
+                headers: { "Authorization": `Bearer ${API_KEY}` }
             };
         }
         return config;

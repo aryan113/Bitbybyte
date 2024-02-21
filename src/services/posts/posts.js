@@ -1,31 +1,22 @@
 const Airtable = require('airtable');
-const base = new Airtable({ apiKey: 'key8Fd9wPmEeVMGCJ' }).base('appYuNzt3cbw4NeEQ');
-// export const getPosts = (successCallback, failureCallback, finalCallback) => {
-//     const url = 'https://api.airtable.com/v0/appYuNzt3cbw4NeEQ/posts?sort[0][field]=updated_at&sort[0][direction]=desc';
-//     axios.get(url, {headers:{"Authorization" : `Bearer key8Fd9wPmEeVMGCJ`}}).then((res) => {
-//         if(res.status === 200) {
-//             successCallback(res);
-//         }
-//     }).catch((error) => {
-//         failureCallback(error);
-//     }).finally(() => {
-//         finalCallback();
-//     });
-// }
+const API_KEY = 'patwXzkI0ezdZsVSg.52b54dda6e51b05c2c25129f348b03f8397728ac6fa9a6c8d8757fd857126a5c'
+const base = new Airtable({ apiKey: API_KEY }).base('appYuNzt3cbw4NeEQ');
+
 export const getPosts = (successCallback, failureCallback, finalCallback) => {
     let xhr = new XMLHttpRequest();
     xhr.open("GET", 'https://api.airtable.com/v0/appYuNzt3cbw4NeEQ/drafts?view=live&sort[0][field]=updated_at&sort[0][direction]=desc');
-    xhr.setRequestHeader('Authorization', `Bearer key8Fd9wPmEeVMGCJ`)
+    xhr.setRequestHeader('Authorization', `Bearer ${API_KEY}`)
     xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-        if(xhr.status===200) {
-            const jsonRes = JSON.parse(xhr.response);
-            successCallback({data: jsonRes});
-        } else {
-            failureCallback();
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                const jsonRes = JSON.parse(xhr.response);
+                successCallback({ data: jsonRes });
+            } else {
+                failureCallback();
+            }
+            finalCallback();
         }
-        finalCallback();
-    }};
+    };
 
     xhr.send();
 }
@@ -33,17 +24,18 @@ export const getPosts = (successCallback, failureCallback, finalCallback) => {
 export const getInReviewPosts = (successCallback, failureCallback, finalCallback) => {
     let xhr = new XMLHttpRequest();
     xhr.open("GET", 'https://api.airtable.com/v0/appYuNzt3cbw4NeEQ/drafts?view=review&sort[0][field]=updated_at&sort[0][direction]=desc');
-    xhr.setRequestHeader('Authorization', `Bearer key8Fd9wPmEeVMGCJ`)
+    xhr.setRequestHeader('Authorization', `Bearer ${API_KEY}`)
     xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-        if(xhr.status===200) {
-            const jsonRes = JSON.parse(xhr.response);
-            successCallback({data: jsonRes});
-        } else {
-            failureCallback();
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                const jsonRes = JSON.parse(xhr.response);
+                successCallback({ data: jsonRes });
+            } else {
+                failureCallback();
+            }
+            finalCallback();
         }
-        finalCallback();
-    }};
+    };
 
     xhr.send();
 }
@@ -51,10 +43,10 @@ export const getInReviewPosts = (successCallback, failureCallback, finalCallback
 export const makePostLive = (postObj, successCallback, failureCallback, finalCallback) => {
     base('drafts').update(postObj.id, {
         "status": "live",
-    }, function(err, record) {
+    }, function (err, record) {
         if (err) {
-          failureCallback(err);
-          return;
+            failureCallback(err);
+            return;
         }
         successCallback(record);
         finalCallback();
@@ -65,10 +57,10 @@ export const updatePost = (postObj, successCallback, failureCallback, finalCallb
     base('drafts').update(postObj.id, {
         title: postObj?.title,
         caption: postObj?.caption
-    }, function(err, record) {
+    }, function (err, record) {
         if (err) {
-          failureCallback(err);
-          return;
+            failureCallback(err);
+            return;
         }
         successCallback(record);
         finalCallback();
@@ -78,10 +70,10 @@ export const updatePost = (postObj, successCallback, failureCallback, finalCallb
 export const rejectPost = (postObj, successCallback, failureCallback, finalCallback) => {
     base('drafts').update(postObj.id, {
         "status": "rejected",
-    }, function(err, record) {
+    }, function (err, record) {
         if (err) {
-          failureCallback(err);
-          return;
+            failureCallback(err);
+            return;
         }
         successCallback(record);
         finalCallback();
@@ -91,17 +83,18 @@ export const rejectPost = (postObj, successCallback, failureCallback, finalCallb
 export const generateNewPosts = (dateRange, successCallback, failureCallback, finalCallback) => {
     let xhr = new XMLHttpRequest();
     xhr.open("POST", 'https://klnq38lwqj.execute-api.ap-south-1.amazonaws.com/dev/api/news');
-    xhr.setRequestHeader('Authorization', `Bearer key8Fd9wPmEeVMGCJ`)
+    xhr.setRequestHeader('Authorization', `Bearer ${API_KEY}`)
     xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-        if(xhr.status===200) {
-            const jsonRes = JSON.parse(xhr.response);
-            successCallback({data: jsonRes});
-        } else {
-            failureCallback();
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                const jsonRes = JSON.parse(xhr.response);
+                successCallback({ data: jsonRes });
+            } else {
+                failureCallback();
+            }
+            finalCallback();
         }
-        finalCallback();
-    }};
+    };
 
-    xhr.send(JSON.stringify({...dateRange}));
+    xhr.send(JSON.stringify({ ...dateRange }));
 }
